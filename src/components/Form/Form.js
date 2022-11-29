@@ -14,14 +14,26 @@ class Form extends Component {
     this.setState({ [event.target.title]: [event.target.description] })
   }
 
+  clearInputs = () => {
+    this.setState({ title: '', description: '' })
+  }
+
+  submitIdea = event => {
+    event.preventDefault()
+    const newIdea = {
+      id: Date.now(),
+      ...this.state
+    }
+    this.props.addIdea(newIdea)
+    this.clearInputs()
+  }
+
   render() {
     return (
       <form>
-        <input type='text' placeholder='Title' name='title' value={this.state.title}>
-        </input>
-        <input type='text' placeholder='Description' name='description' value={this.state.description}>
-        </input>
-        <button>Submit</button>
+        <input type='text' placeholder='Title' name='title' value={this.state.title} onChange={event => this.handleChange(event)}/>
+        <input type='text' placeholder='Description' name='description' value={this.state.description} onChange={event => this.handleChange(event)}/>
+        <button onClick={event => this.submitIdea(event)}>Submit</button>
       </form>
     )
   }
